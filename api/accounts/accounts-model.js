@@ -39,10 +39,18 @@ const deleteById = id => {
   .del()
 }
 
+//checks name
+const getNames = name => {
+  return db('accounts')
+    .where('name', name)
+    .first()
+}
+
 module.exports = {
   getAll,
   getById,
   create,
   updateById,
   deleteById,
+  getNames
 }
