@@ -2,13 +2,11 @@ const db = require("../../data/db-config")
 
 //GET
 const getAll = () => {
-  // DO YOUR MAGIC
   return db("accounts");
 }
 
 //GET BY ID
 const getById = id => {
-  // DO YOUR MAGIC
   return db("accounts")
   .where("id", id)
   .first();
@@ -16,7 +14,6 @@ const getById = id => {
 
 //POST
 const create = account => {
-  // DO YOUR MAGIC
   return db("accounts")
   .insert(account)
   .then(id => {
@@ -26,7 +23,6 @@ const create = account => {
 
 //PUT
 const updateById = (id, account) => {
-  // DO YOUR MAGIC
   return db("accounts")
   .where("id", id)
   .update(account)

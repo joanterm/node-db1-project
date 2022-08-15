@@ -1,9 +1,9 @@
 const router = require('express').Router()
 const Accounts = require("./accounts-model")
+const { checkAccountId, checkAccountPayload, checkAccountNameUnique } = require('./accounts-middleware');
 
 //GET
 router.get('/', (req, res, next) => {
-  // DO YOUR MAGIC
   Accounts.getAll()
   .then((result) => {
     res.status(200).json(result)
@@ -14,24 +14,12 @@ router.get('/', (req, res, next) => {
 })
 
 //GET BY ID
-router.get('/:id', (req, res, next) => {
-  // DO YOUR MAGIC
-  Accounts.getById(req.params.id)
-  .then((result) => {
-    if(!result) {
-      res.status(404).json({ message: "account not found" })
-      return
-    }
-    res.status(200).json(result)
-  })
-  .catch((err => {
-    console.log(err);    
-  }))
+router.get('/:id', checkAccountId, (req, res, next) => {
+  res.status(200).json(req.checkedAccountId)
 })
 
 //POST
 router.post('/', (req, res, next) => {
-  // DO YOUR MAGIC
   if(req.body.name == null || req.body.budget == null) {
     res.status(400).json({message: "name and budget are required" })
     return
@@ -58,7 +46,7 @@ router.post('/', (req, res, next) => {
 })
 
 //PUT
-router.put('/:id', (req, res, next) => {
+router.put('/:id', checkAccountId, (req, res, next) => {
   if(req.body.name == null || req.body.budget == null) {
     res.status(400).json({message: "name and budget are required" })
     return
@@ -90,7 +78,6 @@ router.put('/:id', (req, res, next) => {
 
 //DELETE
 router.delete('/:id', (req, res, next) => {
-  // DO YOUR MAGIC
   Accounts.getById(req.params.id)
   .then((result) => {
     if(result == null) {
