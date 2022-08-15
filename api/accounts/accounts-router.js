@@ -8,9 +8,7 @@ router.get('/', (req, res, next) => {
   .then((result) => {
     res.status(200).json(result)
   })
-  .catch((err => {
-    console.log(err);    
-  }))
+  .catch(next)
 })
 
 //GET BY ID
@@ -27,9 +25,7 @@ router.post('/', checkAccountPayload, checkAccountNameUnique, (req, res, next) =
   .then((result) => {
     res.status(201).json(result)
   })
-  .catch((err => {
-    console.log(err);    
-  }))
+  .catch(next)
 })
 
 //PUT
@@ -41,9 +37,7 @@ router.put('/:id', checkAccountId, checkAccountPayload, (req, res, next) => {
   .then((result) => {
     res.status(200).json(result)
   })
-  .catch((err => {
-    console.log(err);    
-  }))
+  .catch(next)
 });
 
 //DELETE
@@ -52,13 +46,12 @@ router.delete('/:id', checkAccountId, (req, res, next) => {
   .then(() => {
     res.status(200).json(req.checkedAccountId)
   })   
-  .catch((err => {
-    console.log(err);    
-  }))
+  .catch(next)
 })
 
 router.use((err, req, res, next) => { // eslint-disable-line
-  // DO YOUR MAGIC
+  res.status(err.status || 500).json({message: err.message || "Internal Server Error"})
 })
+
 
 module.exports = router;
