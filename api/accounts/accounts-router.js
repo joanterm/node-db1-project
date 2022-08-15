@@ -14,6 +14,16 @@ router.get('/', (req, res, next) => {
 
 router.get('/:id', (req, res, next) => {
   // DO YOUR MAGIC
+  Accounts.getById(req.params.id)
+  .then((result) => {
+    if(!result) {
+      res.status(404).json({ message: "account not found" })
+    }
+    res.status(200).json(result)
+  })
+  .catch((err => {
+    console.log(err);    
+  }))
 })
 
 router.post('/', (req, res, next) => {
